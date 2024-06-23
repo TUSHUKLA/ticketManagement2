@@ -1,0 +1,17 @@
+<core:FragmentDefinition 
+xmlns="sap.m" xmlns:core="sap.ui.core">
+	<SelectDialog
+		id="selectDialogcreate"
+		title="CREATED BY:"
+		items= "{T>/}"
+		search=".onValueHelpSearchcreate"
+		confirm=".onValueHelpClosecreate"
+		cancel=".onValueHelpClosecreate">
+		<StandardListItem
+		    id="creat"
+			iconDensityAware="false"
+			iconInset="false"
+			title="{T>createdby}"
+			 />
+	</SelectDialog>
+</core:FragmentDefinition>

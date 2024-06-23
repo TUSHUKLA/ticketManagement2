@@ -1,0 +1,17 @@
+<core:FragmentDefinition 
+xmlns="sap.m" xmlns:core="sap.ui.core">
+	<SelectDialog
+		id="selectDialogassign"
+		title="ASSIGNED TO:"
+		items= "{T>/}"
+		search=".onValueHelpSearchassign"
+		confirm=".onValueHelpCloseassign"
+		cancel=".onValueHelpCloseassign">
+		<StandardListItem
+		    id="assign"
+			iconDensityAware="false"
+			iconInset="false"
+			title="{T>assignedto}"	
+		 />
+	</SelectDialog>
+</core:FragmentDefinition>
