@@ -13,6 +13,7 @@ function (Controller,JSONModel, MessageToast,Fragment,Filter,FilterOperator,Labe
 
     return Controller.extend("com.tushar.project2.controller.View2", {
         onInit: function () {
+
             const tickets = [ 
                 {
                 "status": "resolved",
@@ -104,17 +105,15 @@ function (Controller,JSONModel, MessageToast,Fragment,Filter,FilterOperator,Labe
                 "assignedto": "Bluejay"
 
             }
-            
             ]
             
-            this.oModel = new JSONModel();
-			this.oModel.setData(tickets);
-			this.getView().setModel(this.oModel,"T");
+            const oModel = new JSONModel();
+			oModel.setData(tickets);
+			this.getView().setModel(oModel,"T");
             
-            // this.applyData = this.applyData.bind(this);
-			// this.fetchData = this.fetchData.bind(this);
-			// this.getFiltersWithValues = this.getFiltersWithValues.bind(this);
+           
 
+			/*
 			this.oSmartVariantManagement = this.getView().byId("svm");
 			this.oExpandedLabel = this.getView().byId("expandedLabel");
 			this.oSnappedLabel = this.getView().byId("snappedLabel");
@@ -133,8 +132,10 @@ function (Controller,JSONModel, MessageToast,Fragment,Filter,FilterOperator,Labe
 			});
 			this.oSmartVariantManagement.addPersonalizableControl(oPersInfo);
 			this.oSmartVariantManagement.initialise(function () {}, this.oFilterBar);
+			*/
 
         },
+
         onValueHelpRequestid: function (oEvent) {
 			var sInputValue = oEvent.getSource().getValue(),
 				oView = this.getView();
@@ -157,8 +158,7 @@ function (Controller,JSONModel, MessageToast,Fragment,Filter,FilterOperator,Labe
 			});
 		},
 
-		onValueHelpSearch: function (oEvent) 
-        {
+		onValueHelpSearch: function (oEvent) {
 			var sValue = oEvent.getParameter("value");
 			var oFilter = new Filter("Name", FilterOperator.Contains, sValue);
 
@@ -266,6 +266,7 @@ function (Controller,JSONModel, MessageToast,Fragment,Filter,FilterOperator,Labe
 
        
         },
+
         onExit: function() {
 			this.oModel = null;
 			this.oSmartVariantManagement = null;
@@ -275,7 +276,7 @@ function (Controller,JSONModel, MessageToast,Fragment,Filter,FilterOperator,Labe
 			this.oTable = null;
 		},
 
-fetchData: function () {
+        fetchData: function () {
 			var aData = this.oFilterBar.getAllFilterItems().reduce(function (aResult, oFilterItem) {
 				aResult.push({
 					groupName: oFilterItem.getGroupName(),
@@ -316,6 +317,7 @@ fetchData: function () {
 		},
 
 		onSearch: function () {
+			/*
 			var aTableFilters = this.oFilterBar.getFilterGroupItems().reduce(function (aResult, oFilterGroupItem) {
 				var oControl = oFilterGroupItem.getControl(),
 					aSelectedKeys = oControl.getSelectedKeys(),
@@ -336,9 +338,31 @@ fetchData: function () {
 
 				return aResult;
 			}, []);
+			*/
 
-			this.oTable.getBinding("items").filter(aTableFilters);
-			this.oTable.setShowOverlay(false);
+			// let f  = new Filter([
+			// 	new Filter("ticketid", FilterOperator.Contains, ticketID),
+			// 	new Filter("status", FilterOperator.Contains, status)
+			// ], false);
+
+			//Step 1, capture user inpt
+			let ticketID = this.getView().byId("TI").getValue();
+
+			//Stpe 2:- prepare filter array
+			const oFiler = new Filter({
+				path: 'ticketid',
+				operator: FilterOperator.EQ, //Contains
+				value1: ticketID
+			});
+
+			const aFilter = new Filter([oFiler], true);
+
+			if(ticketID) {
+				this.getView().byId("table").getBinding("rows").filter(aFilter);
+			} else {
+				this.byId("table").getBinding("rows").filter(null);
+			}
+			
 		},
 
 		onFilterChange: function () {
